@@ -19,6 +19,7 @@ module Rack; module Throttle
     # @option options [String]  :cache      (Hash.new)
     # @option options [String]  :key        (nil)
     # @option options [String]  :key_prefix (nil)
+    # @option options [Integer] :ttl        (nil)
     # @option options [Integer] :code       (403)
     # @option options [String]  :message    ("Rate Limit Exceeded")
     def initialize(app, options = {})
@@ -132,6 +133,8 @@ module Rack; module Throttle
             # hash objects). So, this is a compromise.
             cache[key] = value.to_s
           end
+        when cache.respond_to?(:setex) && options[:ttl]
+          cache.setex(key, options[:ttl], value)
         when cache.respond_to?(:set)
           cache.set(key, value)
       end
