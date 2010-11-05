@@ -134,6 +134,7 @@ module Rack; module Throttle
             cache[key] = value.to_s
           end
         when cache.respond_to?(:setex) && options[:ttl]
+          Rails.logger.info(options[:ttl])
           cache.setex(key, options[:ttl], value)
         when cache.respond_to?(:set)
           cache.set(key, value)
