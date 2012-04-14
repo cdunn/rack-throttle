@@ -158,7 +158,7 @@ module Rack; module Throttle
     # @param  [Rack::Request] request
     # @return [String]
     def client_identifier(request)
-      request.remote_ip.to_s
+      request.ip.to_s
     end
 
     ##
